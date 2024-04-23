@@ -1,10 +1,10 @@
-import Head from "next/head";
-import {Inter} from "next/font/google";
-import Table from "react-bootstrap/Table";
-import {Alert, Container} from "react-bootstrap";
-import {GetServerSideProps, GetServerSidePropsContext} from "next";
+import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import { Inter } from 'next/font/google';
+import Head from 'next/head';
+import Link from 'next/link';
+import { Alert, Container, Pagination, Table } from 'react-bootstrap';
 
-const inter = Inter({subsets: ["latin"]});
+const inter = Inter({ subsets: ['latin'] });
 
 type TUserItem = {
   id: number
@@ -18,29 +18,69 @@ type TUserItem = {
 type TGetServerSideProps = {
   statusCode: number
   users: TUserItem[]
+  totalCount?: number
+  page?: number
 }
 
+const pageSize = 20; // I would move it to data folder
+const pageButtonsAvailable = 10; // I would move it to data folder
 
-export const getServerSideProps = (async (ctx: GetServerSidePropsContext): Promise<{ props: TGetServerSideProps }> => {
+// I would move to 'api' folder
+const fetchData = async (page: number = 1) => {
   try {
-    const res = await fetch("http://localhost:3000/users", {method: 'GET'})
+    const res = await fetch(`http://localhost:3000/users?page=${page}&limit=${pageSize}`, { method: 'GET' });
     if (!res.ok) {
-      return {props: {statusCode: res.status, users: []}}
+      return { props: { statusCode: res.status, users: [] } };
     }
+
+    const { users, totalCount } = await res.json();
 
     return {
-      props: {statusCode: 200, users: await res.json()}
-    }
-  } catch (e) {
-    return {props: {statusCode: 500, users: []}}
+      props: { statusCode: 200, users, totalCount, page },
+    };
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return { props: { statusCode: 500, users: [] } };
   }
-}) satisfies GetServerSideProps<TGetServerSideProps>
+};
+
+export const getServerSideProps = (async (ctx: GetServerSidePropsContext): Promise<{ props: TGetServerSideProps }> => {
+  let { page = 1 } = ctx.query;
+  const { props } = await fetchData(+page);
+
+  return {
+    props,
+  };
+}) satisfies GetServerSideProps<TGetServerSideProps>;
 
 
-export default function Home({statusCode, users}: TGetServerSideProps) {
+export default function Home({ statusCode, users, totalCount = 0, page: currentPage = 1 }: TGetServerSideProps) {
   if (statusCode !== 200) {
-    return <Alert variant={'danger'}>Ошибка {statusCode} при загрузке данных</Alert>
+    return <Alert variant={'danger'}>Ошибка {statusCode} при загрузке данных</Alert>;
   }
+
+  const renderPaginationItems = () => {
+    const items = [];
+    const maxPages = Math.ceil(totalCount / pageSize);
+    const startPage = Math.max(1, currentPage - Math.floor(pageButtonsAvailable / 2));
+    const endPage = Math.min(maxPages, startPage + pageButtonsAvailable - 1);
+
+    for (let i = startPage; i <= endPage; i++) {
+      items.push(
+        <Link href={`/?page=${i}`}>
+          <Pagination.Item
+            key={i}
+            active={i === currentPage}
+            as="span"
+          >
+            {i}
+          </Pagination.Item>
+        </Link>,
+      );
+    }
+
+    return items;
+  };
 
   return (
     <>
@@ -77,13 +117,44 @@ export default function Home({statusCode, users}: TGetServerSideProps) {
                   <td>{user.email}</td>
                   <td>{user.updatedAt}</td>
                 </tr>
-              ))
-            }
+              ))}
             </tbody>
           </Table>
 
-          {/*TODO add pagination*/}
-
+          <Pagination>
+            <Link href={`/?page=${1}`}>
+              <Pagination.First as="span"/>
+            </Link>
+            {currentPage === 1 ? (
+              <Pagination.Prev
+                disabled={currentPage === 1}
+                as="span"
+              />
+            ) : (
+              <Link href={`/?page=${+currentPage - 1}`}>
+                <Pagination.Prev
+                  disabled={currentPage === 1}
+                  as="span"
+                />
+              </Link>
+            )}
+            {renderPaginationItems()}
+            {currentPage === (totalCount / pageSize) ? (
+              <Pagination.Next
+                disabled={currentPage === (totalCount / pageSize)}
+                as="span"
+              />
+            ) : (
+              <Link href={`/?page=${+currentPage + 1}`}>
+                <Pagination.Next
+                  as="span"
+                />
+              </Link>
+            )}
+            <Link href={`/?page=${totalCount / pageSize}`}>
+              <Pagination.Last as="span"/>
+            </Link>
+          </Pagination>
         </Container>
       </main>
     </>

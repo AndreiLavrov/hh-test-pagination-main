@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3d4042ce-e946-4b8d-9a6b-a674ed91f70e" name="Changes" comment="" />
+    <list default="true" id="3d4042ce-e946-4b8d-9a6b-a674ed91f70e" name="Changes" comment="Initialisation of the project">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srv/src/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/srv/src/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srv/src/users/user.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/srv/src/users/user.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/srv/src/users/users.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/srv/src/users/users.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/pages/index.tsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -16,9 +22,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2fJOMw2FGrfa8UK1v3WqKuzY6io" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -28,7 +34,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "D:/testing-tasks/hh-test-pagination-main/srv",
+    "last_opened_file_path": "D:/work/qelp/breezeline-qc5",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -51,11 +57,25 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713515669986</updated>
-      <workItem from="1713515671164" duration="3698000" />
+      <workItem from="1713515671164" duration="19848000" />
+      <workItem from="1713713082169" duration="16690000" />
     </task>
+    <task id="LOCAL-00001" summary="Initialisation of the project">
+      <option name="closed" value="true" />
+      <created>1713520193640</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1713520193640</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Initialisation of the project" />
+    <option name="LAST_COMMIT_MESSAGE" value="Initialisation of the project" />
   </component>
 </project>
